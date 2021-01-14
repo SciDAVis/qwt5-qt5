@@ -170,7 +170,7 @@ if( QWT_SVG_ITEM )
 endif()
 
 if( WIN32 AND BUILD_SHARED_LIBS )
-  target_compile_definitions( qwt5-qt5 PUBLIC QT_DLL QWT_DLL QWT_MAKEDLL )
+  target_compile_definitions( qwt5-qt5 PRIVATE QWT_DLL QWT_MAKEDLL )
 endif()
 
 install( TARGETS qwt5-qt5
