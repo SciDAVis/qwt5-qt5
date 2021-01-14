@@ -48,7 +48,7 @@ if( QWT_DESIGNER )
   add_subdirectory( designer )
 endif()
 
-if( BUILD_EXAMPLES )
+if( BUILD_EXAMPLES AND (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
   add_subdirectory( examples )
 endif()
 
