@@ -115,7 +115,7 @@ Plot::Plot(QWidget *parent):
 
     QwtPlotPanner *panner = new QwtPlotPanner(canvas());
     panner->setAxisEnabled(QwtPlot::yRight, false);
-    panner->setMouseButton(Qt::MidButton);
+    panner->setMouseButton(Qt::MiddleButton);
 
     // Avoid jumping when labels with more/less digits
     // appear/disappear when scrolling vertically
@@ -145,7 +145,7 @@ void Plot::showSpectrogram(bool on)
 void Plot::printPlot()
 {
     QPrinter printer;
-    printer.setOrientation(QPrinter::Landscape);
+    printer.setPageOrientation(QPageLayout::Landscape);
 #if QT_VERSION < 0x040000
     printer.setColorMode(QPrinter::Color);
 #if 0
