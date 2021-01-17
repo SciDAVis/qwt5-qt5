@@ -16,6 +16,19 @@ set( CMAKE_AUTOUIC OFF )
 set( CMAKE_AUTORCC OFF )
 set( CMAKE_AUTOMOC ON )
 
+if( MSVC )
+  # /wd4456 Silent "declaration of %1 hides %2 ..."
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc /W4 /permissive- /wd4456" )
+  if( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
+    set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-nonportable-include-path" )
+  else()
+    add_compile_options( "/MP" )
+  endif()
+else()
+  set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -Wall -Wextra -pedantic" )
+  set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic" )
+endif()
+
 find_package( Qt5
   COMPONENTS
   Core

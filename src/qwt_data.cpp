@@ -157,10 +157,10 @@ QwtArrayData::QwtArrayData(
 QwtArrayData::QwtArrayData(const double *x, const double *y, size_t size)
 {
 #if QT_VERSION >= 0x040000
-    d_x.resize(size);
+    d_x.resize(static_cast<int>(size));
     memcpy(d_x.data(), x, size * sizeof(double));
 
-    d_y.resize(size);
+    d_y.resize(static_cast<int>(size));
     memcpy(d_y.data(), y, size * sizeof(double));
 #else
     d_x.detach();
