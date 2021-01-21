@@ -1,7 +1,7 @@
 prefix=@CMAKE_INSTALL_PREFIX@
 exec_prefix=${prefix}
 libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
-includedir=${prefix}/include/qt5/qwt5-qt5
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@/qwt5-qt5
 
 
 Name: qwt5-qt5

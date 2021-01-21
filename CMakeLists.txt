@@ -3,7 +3,7 @@ cmake_minimum_required( VERSION 3.16.3 )
 project( qwt5-qt5
   VERSION 5.2.3
   DESCRIPTION "Qt Widgets for Technical Applications adapted to work with Qt5"
-  HOMEPAGE_URL "https://github.com/gbm19/qwt5-qt5"
+  HOMEPAGE_URL "https://github.com/SciDAVis/qwt5-qt5"
   LANGUAGES CXX )
 
 include(GNUInstallDirs)
@@ -28,6 +28,8 @@ else()
   set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions -Wall -Wextra -pedantic" )
   set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic" )
 endif()
+
+option( BUILD_SHARED_LIBS "Build Shared Libraries" OFF )
 
 find_package( Qt5
   COMPONENTS
@@ -57,7 +59,7 @@ option( BUILD_EXAMPLES "Build Examples" ON )
 
 add_subdirectory( src )
 
-if( QWT_DESIGNER )
+if( QWT_DESIGNER AND (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
   add_subdirectory( designer )
 endif()
 
@@ -65,5 +67,12 @@ if( BUILD_EXAMPLES AND (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
   add_subdirectory( examples )
 endif()
 
-configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/qwt5-qt5.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/qwt5-qt5.pc" @ONLY )
-install( FILES "${CMAKE_CURRENT_BINARY_DIR}/qwt5-qt5.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+if( "${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}" )
+  configure_file( "${CMAKE_CURRENT_SOURCE_DIR}/qwt5-qt5.pc.in" "${CMAKE_CURRENT_BINARY_DIR}/qwt5-qt5.pc" @ONLY )
+  install( FILES "${CMAKE_CURRENT_BINARY_DIR}/qwt5-qt5.pc" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig )
+
+  install( DIRECTORY ${PROJECT_SOURCE_DIR}/doc/html/ DESTINATION ${CMAKE_INSTALL_DOCDIR}/html )
+  if( UNIX )
+    install( DIRECTORY ${PROJECT_SOURCE_DIR}/doc/man/ DESTINATION ${CMAKE_INSTALL_MANDIR} )
+  endif()
+endif()
