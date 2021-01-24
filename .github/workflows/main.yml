@@ -12,8 +12,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Install prerequisties
         run: |
@@ -36,30 +34,23 @@ jobs:
 
     runs-on: windows-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        qt_ver: [5.12.10, 5.15.2]
-
-    name: MSVC_Qt_${{ matrix.qt_ver }}
+    name: MSVC
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Cache Qt
         id: cache-qt
         uses: actions/cache@v1
         with:
           path: ../Qt
-          key: ${{ runner.os }}-${{ matrix.qt_ver }}-QtCache
+          key: ${{ runner.os }}-QtCache
 
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
-          version: ${{ matrix.qt_ver }}
+          version: 5.15.2
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
 
       - name: Configuring
@@ -67,10 +58,9 @@ jobs:
           mkdir build; cd build
           cmake ..
 
-      - uses: microsoft/setup-msbuild@v1.0.2
       - name: Building
         run: |
-          MSBuild -maxCpuCount build\qwt5-qt5.sln
+          cmake --build build --config Debug -- -maxCpuCount
 
   MinGW-w64:
 
@@ -85,8 +75,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
 
       - name: Install MinGW-w64 packages
         uses: msys2/setup-msys2@v2
@@ -106,3 +94,34 @@ jobs:
       - name: Building
         run: |
           make -C build -j$(nproc)
+
+  macos:
+
+    runs-on: macos-latest
+
+    name: macos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Qt
+        id: cache-qt
+        uses: actions/cache@v1
+        with:
+          path: ../Qt
+          key: ${{ runner.os }}-QtCache
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+
+      - name: Configuring
+        run: |
+          mkdir build && cd build
+          cmake ..
+
+      - name: Building
+        run: |
+          make -j$(sysctl -n hw.logicalcpu) -C build
