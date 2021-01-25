@@ -6,13 +6,11 @@ set( HEADERS
   "qwt_color_map.h"
   "qwt_clipper.h"
   "qwt_double_interval.h"
-  "qwt_double_rect.h"
   "qwt_dyngrid_layout.h"
   "qwt_global.h"
   "qwt_layout_metrics.h"
   "qwt_math.h"
   "qwt_magnifier.h"
-  "qwt_paint_buffer.h"
   "qwt_painter.h"
   "qwt_panner.h"
   "qwt_picker.h"
@@ -36,12 +34,10 @@ set( SRCS
   "qwt_color_map.cpp"
   "qwt_clipper.cpp"
   "qwt_double_interval.cpp"
-  "qwt_double_rect.cpp"
   "qwt_dyngrid_layout.cpp"
   "qwt_layout_metrics.cpp"
   "qwt_math.cpp"
   "qwt_magnifier.cpp"
-  "qwt_paint_buffer.cpp"
   "qwt_panner.cpp"
   "qwt_painter.cpp"
   "qwt_picker.cpp"
@@ -170,18 +166,20 @@ if( QWT_SVG_ITEM )
 endif()
 
 if( WIN32 AND BUILD_SHARED_LIBS )
-  target_compile_definitions( qwt5-qt5 PUBLIC QT_DLL QWT_DLL QWT_MAKEDLL )
+  target_compile_definitions( qwt5-qt5 PRIVATE QWT_DLL QWT_MAKEDLL )
 endif()
 
-install( TARGETS qwt5-qt5
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  PUBLIC_HEADER DESTINATION include/qt5/qwt5-qt5
-  )
-install( DIRECTORY ${CMAKE_SOURCE_DIR}/doc/html/ DESTINATION ${CMAKE_INSTALL_DATADIR}/doc/qt5/html/qwt5-qt5 )
-install( FILES ${HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qt5/qwt5-qt5 )
-# install( FILES doc/qwt-5.2.0.qch DESTINATION doc/qch )
-if( UNIX )
-  install( DIRECTORY ${CMAKE_SOURCE_DIR}/doc/man/ DESTINATION ${CMAKE_INSTALL_DATADIR}/man )
+# Don't install qwt5-qt5 static library and headers if it is built as a subproject
+if( "${CMAKE_SOURCE_DIR}" STREQUAL "${PROJECT_SOURCE_DIR}" )
+  install( TARGETS qwt5-qt5
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/qwt5-qt5
+    )
+elseif( BUILD_SHARED_LIBS )
+  install( TARGETS qwt5-qt5
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    )
 endif()

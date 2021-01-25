@@ -330,8 +330,13 @@ void QwtCounter::wheelEvent(QWheelEvent *e)
         
     for ( int i = 0; i < d_data->nButtons; i++ )
     {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+        if ( d_data->buttonDown[i]->geometry().contains(e->position().toPoint()) ||
+            d_data->buttonUp[i]->geometry().contains(e->position().toPoint()) )
+#else
         if ( d_data->buttonDown[i]->geometry().contains(e->pos()) ||
             d_data->buttonUp[i]->geometry().contains(e->pos()) )
+#endif
         {
             increment = d_data->increment[i];
         }

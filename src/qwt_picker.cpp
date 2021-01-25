@@ -767,7 +767,7 @@ void QwtPicker::drawTracker(QPainter *painter) const
         {
             painter->save();
 
-#if defined(Q_WS_MAC)
+#if defined(Q_OS_MAC)
             // Antialiased fonts are broken on the Mac.
 #if QT_VERSION >= 0x040000 
             painter->setRenderHint(QPainter::TextAntialiasing, false);
@@ -1012,8 +1012,13 @@ void QwtPicker::widgetMouseDoubleClickEvent(QMouseEvent *me)
 */
 void QwtPicker::widgetWheelEvent(QWheelEvent *e)
 {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    if ( pickRect().contains(e->position().toPoint()) )
+        d_data->trackerPosition = e->position().toPoint();
+#else
     if ( pickRect().contains(e->pos()) )
         d_data->trackerPosition = e->pos();
+#endif
     else
         d_data->trackerPosition = QPoint(-1, -1);
 

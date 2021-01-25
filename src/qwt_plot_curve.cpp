@@ -636,9 +636,9 @@ void QwtPlotCurve::draw(QPainter *painter,
         return;
 
     if (to < 0)
-        to = numPoints - 1;
+        to = static_cast<int>(numPoints - 1);
 
-    if ( verifyRange(numPoints, from, to) > 0 )
+    if ( verifyRange(static_cast<int>(numPoints), from, to) > 0 )
     {
         painter->save();
         painter->setPen(QwtPainter::scaledPen(d_data->pen));
@@ -1237,7 +1237,7 @@ double QwtPlotCurve::baseline() const
 */
 int QwtPlotCurve::dataSize() const
 {
-    return d_xy->size();
+    return static_cast<int>(d_xy->size());
 }
 
 /*!

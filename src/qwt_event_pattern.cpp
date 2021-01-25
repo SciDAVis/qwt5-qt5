@@ -69,7 +69,7 @@ void QwtEventPattern::initMousePattern(int numButtons)
         {
             setMousePattern(MouseSelect1, Qt::LeftButton);
             setMousePattern(MouseSelect2, Qt::RightButton);
-            setMousePattern(MouseSelect3, Qt::MidButton);
+            setMousePattern(MouseSelect3, Qt::MiddleButton);
         }
     }
     for ( int i = 0; i < 3; i++ )
@@ -225,7 +225,7 @@ bool QwtEventPattern::mouseMatch(const MousePattern &pattern,
         (e->state() & Qt::KeyButtonMask) == 
             (pattern.state & Qt::KeyButtonMask);
 #else
-        (uint)(e->modifiers() & Qt::KeyboardModifierMask) ==
+        (e->modifiers() & Qt::KeyboardModifierMask) ==
             (pattern.state & Qt::KeyboardModifierMask);
 #endif
 
@@ -280,7 +280,7 @@ bool QwtEventPattern::keyMatch(
         (e->state() & Qt::KeyButtonMask) == 
             (pattern.state & Qt::KeyButtonMask);
 #else
-        (uint)(e->modifiers() & Qt::KeyboardModifierMask) ==
+        (e->modifiers() & Qt::KeyboardModifierMask) ==
             (pattern.state & Qt::KeyboardModifierMask);
 #endif
 

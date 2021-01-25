@@ -455,7 +455,7 @@ QImage QwtPlotSpectrogram::renderImage(
 
     const QwtDoubleInterval intensityRange = d_data->data->range();
     if ( !intensityRange.isValid() )
-        return image;
+        return std::move(image);
 
     d_data->data->initRaster(area, rect.size());
 
@@ -511,7 +511,7 @@ QImage QwtPlotSpectrogram::renderImage(
 #endif
     }
 
-    return image;
+    return std::move(image);
 }
 
 /*!

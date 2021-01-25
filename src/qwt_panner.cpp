@@ -405,7 +405,7 @@ void QwtPanner::widgetMousePressEvent(QMouseEvent *me)
     if ( (me->state() & Qt::KeyButtonMask) !=
         (d_data->buttonState & Qt::KeyButtonMask) )
 #else
-    if ( (uint)(me->modifiers() & Qt::KeyboardModifierMask) !=
+    if ( (me->modifiers() & Qt::KeyboardModifierMask) !=
         (d_data->buttonState & Qt::KeyboardModifierMask) )
 #endif
     {
@@ -514,7 +514,7 @@ void QwtPanner::widgetKeyPressEvent(QKeyEvent *ke)
             (ke->state() & Qt::KeyButtonMask) ==
                 (d_data->abortKeyState & Qt::KeyButtonMask);
 #else
-            (uint)(ke->modifiers() & Qt::KeyboardModifierMask) ==
+            (ke->modifiers() & Qt::KeyboardModifierMask) ==
                 (d_data->abortKeyState & Qt::KeyboardModifierMask);
 #endif
         if ( matched )
