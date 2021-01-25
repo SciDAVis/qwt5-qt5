@@ -29,8 +29,6 @@ else()
   set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic" )
 endif()
 
-option( BUILD_SHARED_LIBS "Build Shared Libraries" OFF )
-
 find_package( Qt5
   COMPONENTS
   Core
