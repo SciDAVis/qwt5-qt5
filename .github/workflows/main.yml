@@ -5,9 +5,14 @@ on: [pull_request,push]
 jobs:
   Ubuntu:
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-${{ matrix.os_ver }}
 
-    name: Ubuntu
+    name: Ubuntu-${{ matrix.os_ver }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os_ver: [18.04, 20.04]
 
     steps:
       - name: Checkout
