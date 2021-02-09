@@ -49,19 +49,25 @@ if( QWT_SVG_ITEM )
 endif()
 
 option( QWT_DESIGNER "Build Designer Plugin" ON )
+
+option( BUILD_EXAMPLES "Build Examples" ON )
+
+if( NOT (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
+  set( QWT_DESIGNER OFF CACHE BOOL "Build Designer Plugin" FORCE )
+  set( BUILD_EXAMPLES OFF CACHE BOOL "Build Examples" FORCE )
+endif()
+
 if( QWT_DESIGNER )
   find_package( Qt5 COMPONENTS Designer REQUIRED )
 endif()
 
-option( BUILD_EXAMPLES "Build Examples" ON )
-
 add_subdirectory( src )
 
-if( QWT_DESIGNER AND (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
+if( QWT_DESIGNER  )
   add_subdirectory( designer )
 endif()
 
-if( BUILD_EXAMPLES AND (${PROJECT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR}) )
+if( BUILD_EXAMPLES )
   add_subdirectory( examples )
 endif()
 
