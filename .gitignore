@@ -1,9 +1,3 @@
-Makefile
-Makefile.*
-examples/bin
-moc_*
-qrc_*
-*.o
-*.a
-*.so
+*.user
+.vs/
 build/
